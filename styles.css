@@ -1,0 +1,492 @@
+/* Base styles */
+:root {
+    --primary-color: #7B68EE;
+    --secondary-color: #6c5ce7;
+    --text-color: #2d3436;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --error-color: #e74c3c;
+    --line-number-color: #999;
+    --line-number-bg: #f5f5f5;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f6f7ff 0%, #eef1ff 100%);
+    color: var(--text-color);
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.tools-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Card styles */
+.tool-card {
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.tool-card h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+.tool-card p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.open-tool-btn {
+    align-self: flex-start;
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.open-tool-btn:hover {
+    background: var(--secondary-color);
+}
+
+/* Fullscreen overlay styles */
+.fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fullscreen-overlay.active {
+    display: flex;
+    opacity: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.fullscreen-content {
+    background: white;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.fullscreen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--primary-color);
+    color: white;
+}
+
+.fullscreen-header h2 {
+    margin: 0;
+    color: white;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.fullscreen-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tool-specific styles */
+.input-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    min-height: 100px;
+    flex: 1;
+}
+
+/* JSON Formatter specific styles */
+.json-formatter {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.json-formatter .input-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin-top: 16px;
+    height: 450px;
+}
+
+.input-section, .output-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: 50%;
+}
+
+.input-section h3, .output-section h3 {
+    margin: 0 0 8px 0;
+    color: var(--primary-color);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Line numbers container */
+.line-numbers-container {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+}
+
+.line-numbers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 100%;
+    background-color: var(--line-number-bg);
+    border-right: 1px solid #ddd;
+    color: var(--line-number-color);
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: right;
+    padding-right: 8px;
+    user-select: none;
+    overflow-y: hidden;
+    pointer-events: none;
+}
+
+.line-numbers span {
+    display: block;
+    padding-right: 4px;
+}
+
+.json-formatter textarea,
+.json-formatter .output-box {
+    box-sizing: border-box;
+    width: 100%;
+    height: 450px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    letter-spacing: 0.1px;
+    white-space: pre;
+    tab-size: 2;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+.json-formatter textarea {
+    resize: none;
+    background: #fff;
+    padding-left: 50px; /* Make room for line numbers */
+}
+
+.json-formatter .output-box {
+    background: #f8f9fa;
+    padding-left: 50px; /* Make room for line numbers */
+    white-space: pre-wrap; /* Allow text to wrap */
+    word-break: break-word; /* Break long words if needed */
+}
+
+.json-formatter .output-box.error {
+    color: var(--error-color);
+    background: #fff;
+    height: 450px;
+}
+
+.button-group {
+    margin-bottom: 16px;
+}
+
+/* Error styling */
+.error {
+    color: var(--error-color) !important;
+    border-color: var(--error-color) !important;
+}
+
+/* Password Generator specific styles */
+.password-generator {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.password-generator .input-container {
+    flex-direction: column;
+    height: auto;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    resize: vertical;
+    overflow-y: auto;
+    transition: height 0.2s ease;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+button {
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: var(--secondary-color);
+}
+
+.output-box {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-height: 50px;
+    background: #f8f9fa;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    transition: height 0.2s ease;
+}
+
+.options-group {
+    margin-bottom: 15px;
+}
+
+.checkbox-group {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 4px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .tools-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .fullscreen-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .fullscreen-body {
+        padding: 15px;
+    }
+    
+    .json-formatter .input-container {
+        flex-direction: column;
+        height: auto;
+        gap: 16px;
+    }
+    
+    .json-formatter textarea,
+    .json-formatter .output-box,
+    .json-formatter .output-box.error {
+        height: 300px;
+    }
+    
+    textarea {
+        min-height: 150px;
+    }
+}
+
+.output-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.copy-btn:hover {
+    background: #fff;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.copy-btn:active {
+    transform: translateY(1px);
+}
+
+.copy-btn svg {
+    stroke: currentColor;
+}
+
+.copy-btn.copied {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Update output box styles to account for copy button */
+.json-formatter .output-box,
+.output-box {
+    padding-right: 80px; /* Make room for copy button */
+}
+
+/* UUID Generator specific styles */
+.uuid-generator {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+}
+
+.uuid-generator .output-box {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 16px;
+    min-height: 100px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.uuid-generator .button-group {
+    display: flex;
+    gap: 12px;
+    margin: 0;
+}
+
+.uuid-generator .checkbox-group {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+}
+
+.uuid-generator .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.uuid-generator .checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+} 

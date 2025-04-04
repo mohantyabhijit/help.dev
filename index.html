@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Developer Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>" type="image/svg+xml">
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Developer Tools</h1>
+        
+        <div class="tools-container">
+            <!-- JSON Formatter Card -->
+            <div class="tool-card" id="json-formatter-card">
+                <h2>JSON Formatter</h2>
+                <p>Format and validate your JSON data with ease.</p>
+                <button class="open-tool-btn" data-tool="json-formatter">Open Tool</button>
+            </div>
+
+            <!-- Password Generator Card -->
+            <div class="tool-card" id="password-generator-card">
+                <h2>Password Generator</h2>
+                <p>Generate secure passwords with customizable options.</p>
+                <button class="open-tool-btn" data-tool="password-generator">Open Tool</button>
+            </div>
+
+            <!-- UUID Generator Card -->
+            <div class="tool-card" id="uuid-generator-card">
+                <h2>UUID Generator</h2>
+                <p>Generate random UUIDs (v4) with one click.</p>
+                <button class="open-tool-btn" data-tool="uuid-generator">Open Tool</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Overlays -->
+    <div class="fullscreen-overlay" id="json-formatter-overlay">
+        <div class="fullscreen-content">
+            <div class="fullscreen-header">
+                <h2>JSON Formatter</h2>
+                <button class="close-btn" data-tool="json-formatter">×</button>
+            </div>
+            <div class="fullscreen-body">
+                <div class="json-formatter">
+                    <div class="button-group">
+                        <button id="beautify-btn">Beautify</button>
+                        <button id="uglify-btn">Uglify</button>
+                    </div>
+                    <div class="input-container">
+                        <div class="input-section">
+                            <h3>Input JSON</h3>
+                            <div class="line-numbers-container">
+                                <div class="line-numbers" id="input-line-numbers"></div>
+                                <textarea id="json-input" placeholder="Paste your JSON here"></textarea>
+                            </div>
+                        </div>
+                        <div class="output-section">
+                            <h3>Formatted JSON</h3>
+                            <div class="output-wrapper">
+                                <div class="line-numbers-container">
+                                    <div class="line-numbers" id="output-line-numbers"></div>
+                                    <div id="json-output" class="output-box">Formatted JSON will appear here</div>
+                                </div>
+                                <button class="copy-btn" data-target="json-output">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fullscreen-overlay" id="password-generator-overlay">
+        <div class="fullscreen-content">
+            <div class="fullscreen-header">
+                <h2>Password Generator</h2>
+                <button class="close-btn" data-tool="password-generator">×</button>
+            </div>
+            <div class="fullscreen-body">
+                <div class="password-generator">
+                    <div class="options-group">
+                        <div class="input-group">
+                            <label for="password-length">Length: </label>
+                            <input type="number" id="password-length" min="8" max="128" value="16">
+                        </div>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="include-uppercase" checked>Uppercase (A-Z)</label>
+                            <label><input type="checkbox" id="include-lowercase" checked>Lowercase (a-z)</label>
+                            <label><input type="checkbox" id="include-numbers" checked>Numbers (0-9)</label>
+                            <label><input type="checkbox" id="include-symbols" checked>Symbols (!@#$%^&*)</label>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button id="generate-password-btn">Generate Password</button>
+                    </div>
+                    <div class="output-wrapper">
+                        <div id="password-output" class="output-box">Password will appear here</div>
+                        <button class="copy-btn" data-target="password-output">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fullscreen-overlay" id="uuid-generator-overlay">
+        <div class="fullscreen-content">
+            <div class="fullscreen-header">
+                <h2>UUID Generator</h2>
+                <button class="close-btn" data-tool="uuid-generator">×</button>
+            </div>
+            <div class="fullscreen-body">
+                <div class="uuid-generator">
+                    <div class="options-group">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="uppercase-uuid" checked>Uppercase</label>
+                            <label><input type="checkbox" id="hyphens-uuid" checked>Include Hyphens</label>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button id="generate-uuid-btn">Generate UUID</button>
+                        <button id="generate-multiple-uuid-btn">Generate 10 UUIDs</button>
+                    </div>
+                    <div class="output-wrapper">
+                        <div id="uuid-output" class="output-box">UUID will appear here</div>
+                        <button class="copy-btn" data-target="uuid-output">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
